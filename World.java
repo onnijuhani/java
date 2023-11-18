@@ -5,6 +5,12 @@ import java.util.Arrays;
 interface Details {
     String getDetails(); //tuo nimen ja mihin yläluokkaan se kuuluu
 }
+
+enum Size {
+    SMALL,
+    MEDIUM,
+    LARGE
+}
 public class World implements Details {
     private String name;
     public String getName() {
@@ -12,22 +18,24 @@ public class World implements Details {
     }
     private Continent[] continents;
 
-    private String size;
+    private Size size;
 
     public ArrayList<Continent> getContinents() {
         return new ArrayList<>(Arrays.asList(continents));
     }
 
-    public World(String name, String size){
+    public World(String name, Size size){
         this.name = name;
         this.size = size;
         this.createContinents();
     }
 
+
+
     // Method to create random number of continents
     private void createContinents() {
         Random random = new Random();
-        int numberOfContinents = size == "Small" ? 2 : size == "Medium" ? 4 : 6;
+        int numberOfContinents = size == size.SMALL ? 2 : size == size.MEDIUM ? 4 : size == size.LARGE ? 6 : -1;
         continents = new Continent[numberOfContinents];
         for (int i = 0; i < numberOfContinents; i++) {
             continents[i] = new Continent(NameCreation.generateContinentNames(), this);
@@ -72,10 +80,10 @@ class Continent implements Details {
 
     private void createNations() {
         Random random = new Random();
-        int numberOfNations = random.nextInt(8) + 2;
+        int numberOfNations = random.nextInt(8) + 1;
         nations = new Nation[numberOfNations];
         for (int i = 0; i < numberOfNations; i++) {
-            String styleName = random.nextInt(2) == 0 ? "Imperial" : "Democratic";
+            Orientation styleName = random.nextInt(2) == 0 ? Orientation.Imperial : Orientation.Democratic;
             Style style = new Style(styleName); //uusi style objekti nation luontia varten
             nations[i] = new Nation(NameCreation.generateNationName(styleName), this, style);
         }
@@ -94,7 +102,7 @@ class Nation implements Details {
     }
     private Province[] provinces;
     private Style style; //Style luokka
-    private String styleName; //nimi
+    private Orientation styleName; //nimi
     private Continent continent;
 
     public Nation(String name, Continent continent, Style style ) {

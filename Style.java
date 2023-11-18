@@ -1,14 +1,15 @@
 public class Style {
 
-    String name;
-    public String getName() {
+    Orientation name;
+    public Orientation getName() {
         return name;
     }
 
-    public Style(String name) {
+    public Style(Orientation name) {
         this.name = name;
     }
 }
+
 
 
 
