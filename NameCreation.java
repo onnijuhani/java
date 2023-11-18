@@ -1,6 +1,10 @@
 import java.util.Random;
-
+import java.util.ArrayList;
 public class NameCreation {
+
+
+
+
     public static String generateNationName(Orientation style) { //style = orientation name
 
         // 2 Orientations imperial and democratic
@@ -44,33 +48,83 @@ public class NameCreation {
 
 
 
-    public static String generateProvinceName(String style) {
-        if (style.equals("imperial")) {
+    public static String generateProvinceName(Orientation style) {
+        String[] prefix = new String[0];
+        String[] suffix = new String[0];
 
-            String[] prefix = {
-                    "Iron", "Shadowed", "Obsidian", "Thunder", "Onyx", "Warbound", "Steel", "Blackstone", "Savage", "Dreadnought"
+        if (style.equals(Orientation.Imperial)) {
+            prefix = new String[]{
+                    "Iron", "Shadowed", "Obsidian", "Thunder", "Onyx", "Warbound", "Steel", "Blackstone", "Savage", "Dreadnought", "Imperative",
+                    "Seraphica", "Mythosia", "Equinoxia", "Elysium", "Cosmara", "Verdantis", "Solara", "Chronosia", "Nebulia",
+                    "Ephemera", "Olympica", "Aurora Major", "Zephyria", "Novus Orbis", "Aetheria", "Heliosia", "Polaris Prime",
+                    "Maris Lux", "Ventura", "Silvatica", "Terravale", "Lunaria", "Serenia", "Oceana", "Caelum", "Avalon",
+                    "Celestria", "Atlantica", "Pacifica", "Ignitia", "Aquila Major", "Vespera", "Tempestia", "Aurora Minor"
             };
-            String[] suffix = {
-                    "Outpost", "Bastion", "Stronghold", "Citadel", "Garrison", "Fortress", "Citadel", "Strongarm", "Arsenal", "Bastille", "River"
+            suffix = new String[]{
+                    "Strongarm", "River", "Mountain", "Dominion", "Territory", "Region", "March", "Domain", "Expanse", "Frontier", "Seaside", "Ravine", "Dark",
+                    "Mountains"
             };
         }
-        if (style.equals("democratic")) {
-            String[] prefix = {
-                    "Tranquil", "Serene", "Blossom", "Celestial", "Crystal", "Radiant", "Velvet", "Whispering", "Harmony", "Azure"
+        if (style.equals(Orientation.Democratic)) {
+            prefix = new String[]{
+                    "Tranquil", "Serene", "Blossom", "Celestial", "Crystal", "Radiant", "Velvet", "Whispering", "Harmony", "Azure",
+                    "Seraphica", "Mythosia", "Equinoxia", "Elysium", "Cosmara", "Verdantis", "Solara", "Chronosia", "Nebulia",
+                    "Ephemera", "Olympica", "Aurora Major", "Zephyria", "Novus Orbis", "Aetheria", "Heliosia", "Polaris Prime",
+                    "Maris Lux", "Ventura", "Silvatica", "Terravale", "Lunaria", "Serenia", "Oceana", "Caelum", "Avalon",
+                    "Celestria", "Atlantica", "Pacifica", "Ignitia", "Aquila Major", "Vespera", "Tempestia", "Aurora Minor"
             };
-            String[] suffix = {
-                    "Glade", "Highlands", "Enclave", "Haven", "Expanse", "Valley", "Basin", "Shire", "Frontier", "Vale", "River", "Mountain"
+            suffix = new String[]{
+                    "Glade", "Highlands", "Enclave", "Haven", "Expanse", "Valley", "Basin", "Shire", "Frontier", "Vale", "River", "Mountain", "Mountains",
+                    "Falls", "Meadowlands"
             };
-
         }
 
-        return "0";
+        Random random = new Random();
+        String first = prefix[random.nextInt(prefix.length)];
+        String second = suffix[random.nextInt(suffix.length)];
+
+        return first + " " + second;
     }
+
+    public static String generateCityName(Orientation style) {
+        String[] prefix = new String[0];
+        String[] suffix = new String[0];
+
+        if (style.equals(Orientation.Imperial)) {
+            prefix = new String[]{
+                    "Iron", "Shadowed", "Obsidian", "Thunder", "Onyx", "Warbound", "Steel", "Blackstone", "Savage", "Dreadnought",
+                    "Tonitru", "Aciros", "Dread", "Umbracampo", "Onyxum", "Noirpetra", "Feroberga", "Salvagehavus", "Obsidiamarcha",
+                    "Ferropolis", "Tondor", "Stelburg", "Dreadhaven", "Umbraharbor", "Onyxville", "Noirhaven", "Feroberg", "Savagemere",
+            };
+            suffix = new String[]{
+                    "Outpost", "Bastion", "Stronghold", "Citadel", "Garrison", "Fortress", "Arsenal", "Bastille", "City", "Metropolis", "Cityscape", "Haven", "Center",
+                    "Capital", "Deep"
+            };
+        }
+        if (style.equals(Orientation.Democratic)) {
+            prefix = new String[]{
+                    "Tranquil", "Serene", "Blossom", "Celestial", "Crystal", "Radiant", "Velvet", "Whispering", "Harmony", "Azure",
+                    "Célestia", "Tranquilé", "Radiantia", "Cristalia", "Velvétia", "Harmonia", "Azurea", "Murmura", "Serenia", "Blossoma",
+                    "Célestiaville", "Tranquilburg", "Radiantburg", "Cristalburg", "Velvetville", "Harmoniavale", "Azurehaven", "Murmuragrove", "Serenburg", "Blossomberg"
+            };
+            suffix = new String[]{
+                    "Outpost", "Bastion", "Stronghold", "Citadel", "Garrison", "Fortress", "Arsenal", "Bastille", "City", "Metropolis", "Cityscape", "Haven", "Center",
+                    "Capital", "Springside", "Sunshine", "Fallsburg", "Waterside",
+            };
+        }
+
+        Random random = new Random();
+        String first = prefix[random.nextInt(prefix.length)];
+        String second = suffix[random.nextInt(suffix.length)];
+
+        return first + " " + second;
+    }
+
 
 
     public static String generateContinentNames() {
 
-        String[] provinceNames = {
+        String[] continentNames = {
                 "Terra Magna", "Celestialis", "Pangea Ultima", "Arcadia", "Astralis", "Primordia", "Eldoria", "Terra Nova",
                 "Seraphica", "Mythosia", "Equinoxia", "Elysium", "Cosmara", "Verdantis", "Solara", "Chronosia", "Nebulia",
                 "Ephemera", "Olympica", "Aurora Major", "Zephyria", "Novus Orbis", "Aetheria", "Heliosia", "Polaris Prime",
@@ -90,12 +144,28 @@ public class NameCreation {
         };
 
         Random random = new Random();
-        String name = provinceNames[random.nextInt(provinceNames.length)];
+        String name = continentNames[random.nextInt(continentNames.length)];
 
         double randomValue = random.nextDouble();
         String value = (randomValue < 0.5) ? prefixName[random.nextInt(prefixName.length)] + " " + name : name;
 
         return value;
+
+    }
+
+
+    public static ArrayList generateQuarterNames(int numberOfQuarters) {
+        String[] quarters = {
+                "Quarter", "District", "Zone", "Area", "Block", "Neighborhood",
+        };
+        Random random = new Random();
+        String name = quarters[random.nextInt(quarters.length)];
+        ArrayList<String> names = new ArrayList<>();
+        for (int i = 0; i < numberOfQuarters; i++){
+            names.add(name + " " + i);
+        }
+        return names;
+
 
     }
 

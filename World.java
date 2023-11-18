@@ -11,16 +11,26 @@ enum Size {
     MEDIUM,
     LARGE
 }
-public class World implements Details {
+
+abstract class Area {
+    String name;
+
+    abstract ArrayList getContents();
+    abstract String getName();
+}
+
+public class World extends Area implements Details {
     private String name;
+    @Override
     public String getName() {
-        return name;
+        return this.name;
     }
     private Continent[] continents;
 
     private Size size;
 
-    public ArrayList<Continent> getContinents() {
+    @Override
+    public ArrayList<Continent> getContents() {
         return new ArrayList<>(Arrays.asList(continents));
     }
 
@@ -56,11 +66,12 @@ public class World implements Details {
 
 }
 
-class Continent implements Details {
+class Continent extends Area implements Details {
 
     private String name;
+    @Override
     public String getName() {
-        return name;
+        return this.name;
     }
     private World world;
     private Nation[] nations;
@@ -80,7 +91,7 @@ class Continent implements Details {
 
     private void createNations() {
         Random random = new Random();
-        int numberOfNations = random.nextInt(8) + 1;
+        int numberOfNations = random.nextInt(3) + 1;
         nations = new Nation[numberOfNations];
         for (int i = 0; i < numberOfNations; i++) {
             Orientation styleName = random.nextInt(2) == 0 ? Orientation.Imperial : Orientation.Democratic;
@@ -89,32 +100,34 @@ class Continent implements Details {
         }
     }
 
-    public ArrayList<Nation> getNations() {
+    @Override
+    public ArrayList<Nation> getContents() {
         return new ArrayList<>(Arrays.asList(nations));
     }
 
 }
 
-class Nation implements Details {
+class Nation extends Area implements Details {
     private String name;
+    @Override
     public String getName() {
-        return name;
+        return this.name;
     }
     private Province[] provinces;
     private Style style; //Style luokka
-    private Orientation styleName; //nimi
+    public Orientation orientation; //nimi
     private Continent continent;
 
     public Nation(String name, Continent continent, Style style ) {
         this.name = name;
         this.continent = continent;
         this.style = style;
-        this.styleName = style.getName();
+        this.orientation = style.getName();
         this.createProvinces();
     }
 
     public String getDetails() {
-        return(styleName + " " + "Nation: " + name + " Belongs to: " + continent.getName());
+        return(orientation + " " + "Nation: " + name + " Belongs to: " + continent.getName());
     }
 
     private void createProvinces() {
@@ -122,19 +135,20 @@ class Nation implements Details {
         int numberOfProvinces = random.nextInt(8) + 2;
         provinces = new Province[numberOfProvinces];
         for (int i = 0; i < numberOfProvinces; i++) {
-            provinces[i] = new Province("Province" + (i +1), this);
+            provinces[i] = new Province(NameCreation.generateProvinceName(orientation), this);
         }
     }
-
-    public ArrayList<Province> getProvinces() {
+    @Override
+    public ArrayList<Province> getContents() {
         return new ArrayList<>(Arrays.asList(provinces));
     }
 }
 
-class Province implements Details {
+class Province extends Area implements Details {
     private String name;
+    @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
     private City[] cities;
@@ -153,23 +167,24 @@ class Province implements Details {
 
     private void createCities() {
         Random random = new Random();
-        int numberOfCities = random.nextInt(9) + 1;
+        int numberOfCities = random.nextInt(4) + 1;
         cities = new City[numberOfCities];
         for (int i = 0; i < numberOfCities; i++) {
-            cities[i] = new City("City" + (i +1), this);
+            cities[i] = new City(NameCreation.generateCityName(nation.orientation), this);
         }
     }
-
-    public ArrayList<City> getCities() {
+    @Override
+    public ArrayList<City> getContents() {
         return new ArrayList<>(Arrays.asList(cities));
     }
 
 }
 
-class City implements Details {
+class City extends Area implements Details {
     private String name;
+    @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
     private Quarter[] quarters;
@@ -188,23 +203,26 @@ class City implements Details {
 
     private void createQuarters() {
         Random random = new Random();
-        int numberOfQuarters = random.nextInt(4) + 2;
+        int numberOfQuarters = random.nextInt(3) + 2;
+        ArrayList<String> names = NameCreation.generateQuarterNames(numberOfQuarters);
         quarters = new Quarter[numberOfQuarters];
         for (int i = 0; i < numberOfQuarters; i++) {
-            quarters[i] = new Quarter("Quarter" + (i +1), this);
+            quarters[i] = new Quarter(names.get(i), this);
         }
     }
-    public ArrayList<Quarter> getQuarters() {
+    @Override
+    public ArrayList<Quarter> getContents() {
         return new ArrayList<>(Arrays.asList(quarters));
     }
 
 }
 
-class Quarter implements Details {
+class Quarter extends Area implements Details {
 
     private String name;
+    @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
     private City city;
@@ -216,5 +234,9 @@ class Quarter implements Details {
 
     public String getDetails() {
         return("Quarter: " + name + " Belongs to: " + city.getName());
+    }
+    @Override
+    public ArrayList<Quarter> getContents() {
+        return new ArrayList<>();
     }
 }
