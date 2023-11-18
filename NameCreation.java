@@ -6,34 +6,102 @@ public class NameCreation {
         // 2 Styles imperial and democratic
         String[] imperial = {"Dominion", "Empire", "Ascedancy", "Realm", "Conclave"};
         String[] democratic = {"Federation", "Republic", "Alliance", "Union", "Syndicate", "Coalition"};
-
-        String[] nationNames = {
-                "Stellar", "Noble", "Radiant", "Ethereal", "Vanguard", "Infinite", "Pinnacle", "Grand",
-                "Ironguard", "Terrific", "Astonishing", "Ascension", "Stormfront", "Devastating",
+        String[] extraPrefix = {"Noble", "Grand", "Illustrious", "Majestic", "Regal", "Colossal", };
+        String[] democraticNames = {
+                "Stellar", "Radiant", "Ethereal", "Serene Bloom", "Blossom Harmony", "Crystal",
+                "Astonishing", "Ascension", "Velvet Trail", "Whispering", "Old Harmony",
+        };
+        String[] imperialNames = {
+                "Vanguard", "Infinite", "Pinnacle", "Iron", "Iron Legion", "Warfront", "Steel Enforcer",
+                "Ironguard", "Terrific", "Stormfront", "Devastating", "Thunder", "Thunderstrike", "Warbound",
         };
 
         Random random = new Random();
+        double randomValue = random.nextDouble();
+        String addExtraPrefix = (randomValue < 0.25) ? "Style" : (randomValue < 0.5)  ? "Extra" : "" ;
 
-        String suffix;
+        String prefix = "";
+        String suffix = "";
+
+        if (style.equals("random")) {
+            style = random.nextInt(2) == 0 ? "Imperial" : "Democratic";
+        }
 
         if (style.equals("Imperial")) {
             suffix = imperial[random.nextInt(imperial.length)];
-        } else {
-            suffix = democratic[random.nextInt(imperial.length)];
+            prefix = imperialNames[random.nextInt(imperial.length)];
+        } else if (style.equals("Democratic")) {
+            suffix = democratic[random.nextInt(democratic.length)];
+            prefix = democraticNames[random.nextInt(democratic.length)];
         }
-        String prefix = nationNames[random.nextInt(nationNames.length)];
+
+        if (addExtraPrefix.equals("Style")) {
+            return style + " " + prefix + " " + suffix;
+        } else if (addExtraPrefix.equals("Extra")) {
+            String extra = extraPrefix[random.nextInt(extraPrefix.length)];
+            return extra + " " + prefix + " " + suffix;
+        }
 
         return prefix + " " + suffix;
     }
 
-    public static String generateProvinceName(String area) {
+
+
+    public static String generateProvinceName(String style) {
+        if (style.equals("imperial")) {
+
+            String[] prefix = {
+                    "Iron", "Shadowed", "Obsidian", "Thunder", "Onyx", "Warbound", "Steel", "Blackstone", "Savage", "Dreadnought"
+            };
+            String[] suffix = {
+                    "Outpost", "Bastion", "Stronghold", "Citadel", "Garrison", "Fortress", "Citadel", "Strongarm", "Arsenal", "Bastille", "River"
+            };
+        }
+        if (style.equals("democratic")) {
+            String[] prefix = {
+                    "Tranquil", "Serene", "Blossom", "Celestial", "Crystal", "Radiant", "Velvet", "Whispering", "Harmony", "Azure"
+            };
+            String[] suffix = {
+                    "Glade", "Highlands", "Enclave", "Haven", "Expanse", "Valley", "Basin", "Shire", "Frontier", "Vale", "River", "Mountain"
+            };
+
+        }
+
+        return "0";
+    }
+
+
+    public static String generateContinentNames() {
+
+        String[] provinceNames = {
+                "Terra Magna", "Celestialis", "Pangea Ultima", "Arcadia", "Astralis", "Primordia", "Eldoria", "Terra Nova",
+                "Seraphica", "Mythosia", "Equinoxia", "Elysium", "Cosmara", "Verdantis", "Solara", "Chronosia", "Nebulia",
+                "Ephemera", "Olympica", "Aurora Major", "Zephyria", "Novus Orbis", "Aetheria", "Heliosia", "Polaris Prime",
+                "Maris Lux", "Ventura", "Silvatica", "Terravale", "Lunaria", "Serenia", "Oceana", "Caelum", "Avalon",
+                "Celestria", "Atlantica", "Pacifica", "Ignitia", "Aquila Major", "Vespera", "Tempestia", "Aurora Minor"
+        };
+        String[] prefixName = {
+                "Ancient", "Mystic", "Eternal", "Golden", "Cerulean",
+                "Shrouded", "Ethereal", "Radiant", "Sacred", "Forgotten",
+                "Lost", "Aurelian", "Verdant", "Crimson", "Silent",
+                "Whispering", "Emerald", "Majestic", "Celestial", "Silent",
+                "Sapphire", "Astral", "Enchanted", "Dusken", "Divine",
+                "Mystical", "Ivory", "Silver", "Vivid", "Mythic",
+                "Iridescent", "Infinite", "Twilight", "Cascading", "Pristine",
+                "Abyssal", "Luminescent", "Nebula", "Harmonic", "Oblivion",
+                "Royal", "Sovereign", "Epic", "Aurelia", "Lustrous"
+        };
+
         Random random = new Random();
-        String[] Prefixes = {"Verdant", "Serene", "Tranquil", "Noble", "Radiant", "Majestic", "Evergreen", "Golden", "Crimson", "Ethereal"};
-        String[] Suffixes = {"Shire", "Valley", "Highlands", "Vale", "Enclave", "Expanse", "Frontier", "Haven", "Basin", "Glade", "Mountains", "Caves"};
-        String prefix = Prefixes[random.nextInt(Prefixes.length)];
-        String suffix = Suffixes[random.nextInt(Suffixes.length)];
-        return prefix + " " + suffix;
+        String name = provinceNames[random.nextInt(provinceNames.length)];
+
+        double randomValue = random.nextDouble();
+        String value = (randomValue < 0.5) ? prefixName[random.nextInt(prefixName.length)] + " " + name : name;
+
+        return value;
+
     }
+
 }
 
 

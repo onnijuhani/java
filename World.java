@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 interface Details {
-    String getDetails();
+    String getDetails(); //tuo nimen ja mihin yläluokkaan se kuuluu
 }
 public class World implements Details {
     private String name;
@@ -12,22 +12,25 @@ public class World implements Details {
     }
     private Continent[] continents;
 
+    private String size;
+
     public ArrayList<Continent> getContinents() {
         return new ArrayList<>(Arrays.asList(continents));
     }
 
-    public World(String name){
+    public World(String name, String size){
         this.name = name;
+        this.size = size;
         this.createContinents();
     }
 
     // Method to create random number of continents
     private void createContinents() {
         Random random = new Random();
-        int numberOfContinents = random.nextInt(3) + 2;
+        int numberOfContinents = size == "Small" ? 2 : size == "Medium" ? 4 : 6;
         continents = new Continent[numberOfContinents];
         for (int i = 0; i < numberOfContinents; i++) {
-            continents[i] = new Continent("Continent" + (i +1), this);
+            continents[i] = new Continent(NameCreation.generateContinentNames(), this);
         }
     }
 
@@ -72,7 +75,9 @@ class Continent implements Details {
         int numberOfNations = random.nextInt(8) + 2;
         nations = new Nation[numberOfNations];
         for (int i = 0; i < numberOfNations; i++) {
-            nations[i] = new Nation("Nation" + (i +1), this);
+            String styleName = random.nextInt(2) == 0 ? "Imperial" : "Democratic";
+            Style style = new Style(styleName); //uusi style objekti nation luontia varten
+            nations[i] = new Nation(NameCreation.generateNationName(styleName), this, style);
         }
     }
 
@@ -88,17 +93,20 @@ class Nation implements Details {
         return name;
     }
     private Province[] provinces;
-
+    private Style style; //Style luokka
+    private String styleName; //nimi
     private Continent continent;
 
-    public Nation(String name, Continent continent) {
+    public Nation(String name, Continent continent, Style style ) {
         this.name = name;
         this.continent = continent;
+        this.style = style;
+        this.styleName = style.getName();
         this.createProvinces();
     }
 
     public String getDetails() {
-        return("Nation: " + name + " Belongs to: " + continent.getName());
+        return(styleName + " " + "Nation: " + name + " Belongs to: " + continent.getName());
     }
 
     private void createProvinces() {
