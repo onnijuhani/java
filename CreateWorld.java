@@ -7,9 +7,24 @@ public class CreateWorld {
 
         //insert name of the world, and size either small medium or large
         World world = new World("Medium World", Size.MEDIUM);
+        Continent continent1 = world.getContents().get(1);
+
+        Access.printNames(continent1);
+
+        Time time = new Time();
+        String glock = time.getClock();
+        int days = 5000000;
+        for (int i = 0; i < days; i++){
+            time.incrementDay();
+        }
+        glock = time.getClock();
+        System.out.println(glock);
 
 
-        Access.printAll(world, "");
+
+
+
+
 
 
 //        ArrayList<Continent> continents = world.getContents();

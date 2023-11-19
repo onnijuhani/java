@@ -97,7 +97,7 @@ public class NameCreation {
                     "Ferropolis", "Tondor", "Stelburg", "Dreadhaven", "Umbraharbor", "Onyxville", "Noirhaven", "Feroberg", "Savagemere",
             };
             suffix = new String[]{
-                    "Outpost", "Bastion", "Stronghold", "Citadel", "Garrison", "Fortress", "Arsenal", "Bastille", "City", "Metropolis", "Cityscape", "Haven", "Center",
+                    "Outpost", "Bastion", "Stronghold", "Garrison", "Arsenal", "Bastille", "City", "Metropolis", "Cityscape", "Haven", "Center",
                     "Capital", "Deep"
             };
         }
@@ -108,7 +108,7 @@ public class NameCreation {
                     "Célestiaville", "Tranquilburg", "Radiantburg", "Cristalburg", "Velvetville", "Harmoniavale", "Azurehaven", "Murmuragrove", "Serenburg", "Blossomberg"
             };
             suffix = new String[]{
-                    "Outpost", "Bastion", "Stronghold", "Citadel", "Garrison", "Fortress", "Arsenal", "Bastille", "City", "Metropolis", "Cityscape", "Haven", "Center",
+                    "Outpost", "Bastion", "Stronghold", "Garrison", "Arsenal", "Bastille", "City", "Metropolis", "Cityscape", "Haven", "Center",
                     "Capital", "Springside", "Sunshine", "Fallsburg", "Waterside",
             };
         }
