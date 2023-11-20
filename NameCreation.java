@@ -2,9 +2,6 @@ import java.util.Random;
 import java.util.ArrayList;
 public class NameCreation {
 
-
-
-
     public static String generateNationName(Orientation style) { //style = orientation name
 
         // 2 Orientations imperial and democratic
@@ -16,7 +13,7 @@ public class NameCreation {
                 "Astonishing", "Ascension", "Velvet Trail", "Whispering", "Old Harmony",
         };
         String[] imperialNames = {
-                "Vanguard", "Infinite", "Pinnacle", "Iron", "Iron Legion", "Warfront", "Steel Enforcer",
+                "Infinite", "Pinnacle", "Iron", "Iron Legion", "Warfront", "Steel Enforcer",
                 "Ironguard", "Terrific", "Stormfront", "Devastating", "Thunder", "Thunderstrike", "Warbound",
         };
 
@@ -162,7 +159,7 @@ public class NameCreation {
         String name = quarters[random.nextInt(quarters.length)];
         ArrayList<String> names = new ArrayList<>();
         for (int i = 0; i < numberOfQuarters; i++){
-            names.add(name + " " + i);
+            names.add(name + "-" + i);
         }
         return names;
 

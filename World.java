@@ -14,9 +14,16 @@ enum Size {
 
 abstract class Area {
     String name;
+    String areaName = "Area";
 
     abstract ArrayList getContents();
     abstract String getName();
+}
+
+abstract class ControlledArea extends Area {
+    Authority authority;
+
+
 }
 
 public class World extends Area implements Details {
@@ -96,7 +103,11 @@ class Continent extends Area implements Details {
         for (int i = 0; i < numberOfNations; i++) {
             Orientation styleName = random.nextInt(2) == 0 ? Orientation.Imperial : Orientation.Democratic;
             Style style = new Style(styleName); //uusi style objekti nation luontia varten
-            nations[i] = new Nation(NameCreation.generateNationName(styleName), this, style);
+            String name = NameCreation.generateNationName(styleName);
+            Property property = PropertyCreation.createProperty(name, "Nation");
+            King king = new King();
+            Authority authority = new NationAuthority(property, king);
+            nations[i] = new Nation(name, this, style, authority);
         }
     }
 
@@ -107,7 +118,7 @@ class Continent extends Area implements Details {
 
 }
 
-class Nation extends Area implements Details {
+class Nation extends ControlledArea implements Details {
     private String name;
     @Override
     public String getName() {
@@ -115,15 +126,18 @@ class Nation extends Area implements Details {
     }
     private Province[] provinces;
     private Style style; //Style luokka
-    public Orientation orientation; //nimi
+    public Orientation orientation;
     private Continent continent;
 
-    public Nation(String name, Continent continent, Style style ) {
+    private String areaName = "Nation";
+
+    public Nation(String name, Continent continent, Style style, Authority authority) {
         this.name = name;
         this.continent = continent;
         this.style = style;
         this.orientation = style.getName();
         this.createProvinces();
+        super.authority = authority;
     }
 
     public String getDetails() {
@@ -135,7 +149,11 @@ class Nation extends Area implements Details {
         int numberOfProvinces = random.nextInt(8) + 2;
         provinces = new Province[numberOfProvinces];
         for (int i = 0; i < numberOfProvinces; i++) {
-            provinces[i] = new Province(NameCreation.generateProvinceName(orientation), this);
+            String name = NameCreation.generateProvinceName(orientation);
+            Property property = PropertyCreation.createProperty(name, "Province");
+            Governor governor = new Governor();
+            Authority authority = new ProvinceAuthority(property, governor);
+            provinces[i] = new Province(name, this, authority);
         }
     }
     @Override
@@ -144,8 +162,10 @@ class Nation extends Area implements Details {
     }
 }
 
-class Province extends Area implements Details {
+class Province extends ControlledArea implements Details {
     private String name;
+
+    private String areaName = "Province";
     @Override
     public String getName() {
         return this.name;
@@ -155,10 +175,16 @@ class Province extends Area implements Details {
 
     private Nation nation;
 
-    public Province(String name, Nation nation) {
+    public Nation getNation() {
+        return nation;
+    }
+
+
+    public Province(String name, Nation nation, Authority authority) {
         this.name = name;
         this.nation = nation;
         this.createCities();
+        super.authority = authority;
     }
 
     public String getDetails() {
@@ -170,7 +196,11 @@ class Province extends Area implements Details {
         int numberOfCities = random.nextInt(4) + 1;
         cities = new City[numberOfCities];
         for (int i = 0; i < numberOfCities; i++) {
-            cities[i] = new City(NameCreation.generateCityName(nation.orientation), this);
+            String name = NameCreation.generateCityName(nation.orientation);
+            Property property = PropertyCreation.createProperty(name, "City");
+            Mayor mayor = new Mayor();
+            Authority authority = new CityAuthority(property, mayor);
+            cities[i] = new City(name, this, authority);
         }
     }
     @Override
@@ -180,8 +210,9 @@ class Province extends Area implements Details {
 
 }
 
-class City extends Area implements Details {
+class City extends ControlledArea implements Details {
     private String name;
+    private String areaName = "City";
     @Override
     public String getName() {
         return this.name;
@@ -190,11 +221,15 @@ class City extends Area implements Details {
     private Quarter[] quarters;
 
     private Province province;
+    public Province getProvince() {
+        return province;
+    }
 
-    public City(String name, Province province) {
+    public City(String name, Province province, Authority authority) {
         this.name = name;
         this.province = province;
         this.createQuarters();
+        super.authority = authority;
     }
 
     public String getDetails() {
@@ -207,7 +242,11 @@ class City extends Area implements Details {
         ArrayList<String> names = NameCreation.generateQuarterNames(numberOfQuarters);
         quarters = new Quarter[numberOfQuarters];
         for (int i = 0; i < numberOfQuarters; i++) {
-            quarters[i] = new Quarter(names.get(i), this);
+            String name = names.get(i);
+            Property property = PropertyCreation.createProperty(name, "Quarter");
+            Captain captain = new Captain();
+            Authority authority = new QuarterAuthority(property, captain);
+            quarters[i] = new Quarter(name, this, authority);
         }
     }
     @Override
@@ -217,9 +256,10 @@ class City extends Area implements Details {
 
 }
 
-class Quarter extends Area implements Details {
+class Quarter extends ControlledArea implements Details {
 
     private String name;
+    private String areaName = "Quarter";
     @Override
     public String getName() {
         return this.name;
@@ -227,9 +267,10 @@ class Quarter extends Area implements Details {
 
     private City city;
 
-    public Quarter(String name, City city) {
+    public Quarter(String name, City city, Authority authority) {
         this.name = name;
         this.city = city;
+        super.authority = authority;
     }
 
     public String getDetails() {
@@ -238,5 +279,11 @@ class Quarter extends Area implements Details {
     @Override
     public ArrayList<Quarter> getContents() {
         return new ArrayList<>();
+    }
+
+    public String fullHierarchyInfo(){
+        Province prov = city.getProvince();
+        Nation nat = prov.getNation();
+        return name + " in a: " + city.getName() + " -city. Of the: " + prov.getName() +" -province. Part of: " + nat.getName() + " -Nation.";
     }
 }

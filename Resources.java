@@ -46,6 +46,13 @@ class Wallet {
     }
 }
 
+class Vault extends Wallet {
+
+    public Vault(int food, int alloy, int gold) {
+        super(food, alloy, gold);
+    }
+}
+
 class Food extends Resources {
 
 }
