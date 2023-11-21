@@ -1,69 +1,181 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Resources {
+
+    private double amount;
+
+    public double getAmount() {
+        return amount;
+    }
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void add(double amount) {
+        this.amount += amount;
+    }
+
+    public void subtract(double amount) {
+        this.amount -= amount;
+    }
+
 }
 
 class Wallet {
-    int Food;
-    int Alloy;
-    int Gold;
+    private Food food;
+    private Alloy alloy;
+    private Gold gold;
 
-    public Wallet(int food, int alloy, int gold) {
-        Food = food;
-        Alloy = alloy;
-        Gold = gold;
+    public Wallet(double food, double alloy, double gold) {
+        this.food = new Food(food);
+        this.alloy = new Alloy(alloy);
+        this.gold = new Gold(gold);
+    }
+    public HashMap<String, Double> getWalletValues() {
+        HashMap<String, Double> wallet = new HashMap<>();
+        wallet.put("Food", food.getAmount());
+        wallet.put("Alloys", alloy.getAmount());
+        wallet.put("Gold", gold.getAmount());
+        return wallet;
     }
 
-    public ArrayList<Integer> getWalletValues() {
-        ArrayList<Integer> wallet = new ArrayList<>();
-        return new ArrayList<>(Arrays.asList(Food, Alloy, Gold));
-
+    public double getFood() {
+        return food.getAmount();
     }
 
-    public int getFood() {
-        return Food;
+    public void setFood(double food) {
+        this.food.setAmount(food);
     }
 
-    public void setFood(int food) {
-        Food = food;
+    public void addFood(double food) {
+        this.food.add(food);
     }
 
-    public int getAlloy() {
-        return Alloy;
+    public void subtractFood(double food) {
+        this.food.subtract(food);
     }
 
-    public void setAlloy(int alloy) {
-        Alloy = alloy;
+    public double getAlloy() {
+        return alloy.getAmount();
     }
 
-    public int getGold() {
-        return Gold;
+    public void setAlloy(double alloy) {
+        this.alloy.setAmount(alloy);
     }
 
-    public void setGold(int gold) {
-        Gold = gold;
+    public void addAlloy(double alloy) {
+        this.alloy.add(alloy);
     }
+
+    public void subtractAlloy(double alloy) {
+        this.alloy.subtract(alloy);
+    }
+
+    public double getGold() {
+        return gold.getAmount();
+    }
+
+    public void setGold(double gold) {
+        this.gold.setAmount(gold);
+    }
+
+    public void addGold(double gold) {
+        this.gold.add(gold);
+    }
+
+    public void subtractGold(double gold) {
+        this.gold.subtract(gold);
+    }
+
 }
 
 class Vault extends Wallet {
 
-    public Vault(int food, int alloy, int gold) {
+    public Vault(double food, double alloy, double gold) {
         super(food, alloy, gold);
     }
 }
 
 class Food extends Resources {
 
+    private static double totalFoodCount = 0;
+
+    public Food(double amount) {
+        super.add(amount);
+        totalFoodCount += amount;
+    }
+
+    @Override
+    public void add(double amount) {
+        super.add(amount);
+        totalFoodCount += amount;
+    }
+    @Override
+    public void subtract(double amount) {
+        super.subtract(amount);
+        totalFoodCount -= amount;
+    }
+
+    public static double getTotalFoodCount(){
+        return totalFoodCount;
+    }
+
+
+
 }
 
 class Alloy extends Resources {
+    private static double totalAlloyCount = 0;
 
+    public Alloy(double amount) {
+        super.add(amount);
+        totalAlloyCount += amount;
+    }
+
+    @Override
+    public void add(double amount) {
+        super.add(amount);
+        totalAlloyCount += amount;
+    }
+
+    @Override
+    public void subtract(double amount) {
+        super.subtract(amount);
+        totalAlloyCount -= amount;
+    }
+
+    public static double getTotalAlloyCount() {
+        return totalAlloyCount;
+    }
 }
 
 class Gold extends Resources {
+    private static double totalGoldCount = 0;
 
+    public Gold(double amount) {
+        super.add(amount);
+        totalGoldCount += amount;
+    }
+
+    @Override
+    public void add(double amount) {
+        super.add(amount);
+        totalGoldCount += amount;
+    }
+
+    @Override
+    public void subtract(double amount) {
+        super.subtract(amount);
+        totalGoldCount -= amount;
+    }
+
+    public static double getTotalGoldCount() {
+        return totalGoldCount;
+    }
 }
+
 
 enum Resource {
     Food,
